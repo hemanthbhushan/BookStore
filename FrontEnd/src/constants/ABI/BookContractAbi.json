@@ -1,0 +1,109 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "bookName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "author",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "bookPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "BookPurchased",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "string", "name": "", "type": "string" }
+    ],
+    "name": "BookOwner",
+    "outputs": [
+      { "internalType": "address", "name": "BookOwner", "type": "address" },
+      { "internalType": "string", "name": "BookName", "type": "string" },
+      { "internalType": "string", "name": "Author", "type": "string" },
+      { "internalType": "uint256", "name": "BookPrice", "type": "uint256" },
+      { "internalType": "bool", "name": "sale", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_bookOwner", "type": "address" },
+      { "internalType": "string", "name": "_bookName", "type": "string" }
+    ],
+    "name": "buyBook",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "claimToken",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "BookOwner", "type": "address" },
+          { "internalType": "string", "name": "BookName", "type": "string" },
+          { "internalType": "string", "name": "Author", "type": "string" },
+          { "internalType": "uint256", "name": "BookPrice", "type": "uint256" },
+          { "internalType": "bool", "name": "sale", "type": "bool" }
+        ],
+        "internalType": "struct BookContract.BookDetails",
+        "name": "_details",
+        "type": "tuple"
+      }
+    ],
+    "name": "listBookForSale",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token",
+    "outputs": [
+      { "internalType": "contract BookToken", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
