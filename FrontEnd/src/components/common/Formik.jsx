@@ -6,6 +6,7 @@ const MyFormikComponent = ({ onSubmit }) => {
     title: "",
     author: "",
     publishYear: 0,
+    bookPrice: 0,
   };
 
   const validate = (values) => {
@@ -24,13 +25,18 @@ const MyFormikComponent = ({ onSubmit }) => {
     } else if (isNaN(values.publishYear)) {
       errors.publishYear = "Publish Year must be a number";
     }
+    if (!values.bookPrice) {
+      errors.bookPrice = "Publish Year is required";
+    } else if (isNaN(values.bookPrice)) {
+      errors.bookPrice = "Publish Year must be a number";
+    }
 
     return errors;
   };
 
   const handleSubmit = (values, { resetForm }) => {
     onSubmit(values);
-    resetForm();
+    // resetForm();
   };
 
   return (
@@ -58,6 +64,15 @@ const MyFormikComponent = ({ onSubmit }) => {
             <Field type="number" id="publishYear" name="publishYear" />
             <ErrorMessage
               name="publishYear"
+              component="div"
+              className="error"
+            />
+          </div>
+          <div>
+            <label htmlFor="bookPrice">Price</label>
+            <Field type="number" id="bookPrice" name="bookPrice" />
+            <ErrorMessage
+              name="bookPrice"
               component="div"
               className="error"
             />
