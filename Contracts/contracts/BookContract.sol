@@ -11,6 +11,7 @@ contract BookContract {
         uint BookPrice;
         bool sale;
     }
+
     mapping(address => mapping(string => BookDetails)) public BookOwner;
     mapping(address => uint) public claimToken;
 
@@ -19,6 +20,18 @@ contract BookContract {
         string bookName,
         string author,
         uint bookPrice
+    );
+
+    event BookListedForSale(
+        address indexed bookOwner,
+        string bookName,
+        string author,
+        uint bookPrice
+    );
+
+    event TokenWithdrawn(
+        address indexed recipient,
+        uint amount
     );
 
     BookToken public token;
@@ -43,6 +56,13 @@ contract BookContract {
             BookPrice: _details.BookPrice,
             sale: true
         });
+
+        emit BookListedForSale(
+            msg.sender,
+            _details.BookName,
+            _details.Author,
+            _details.BookPrice
+        );
     }
 
     function buyBook(address _bookOwner, string memory _bookName) external {
@@ -82,7 +102,10 @@ contract BookContract {
 
     function withdrawToken() external {
         require(claimToken[msg.sender] > 0, "No tokens");
-        token.transfer(msg.sender, claimToken[msg.sender]);
+        uint amount = claimToken[msg.sender];
         claimToken[msg.sender] = 0;
+        token.transfer(msg.sender, amount);
+
+        emit TokenWithdrawn(msg.sender, amount);
     }
 }

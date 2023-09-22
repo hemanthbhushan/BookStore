@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <div>
       <div>{books}</div>
-      <Link to="/postBook"> CreateBook</Link>
+      <Link to="/"> CreateBook</Link>
       <Link to="/edit"> editBook</Link>
       <Link to="/details"> show details</Link>
       <Link to="/delete"> deleteBook</Link>

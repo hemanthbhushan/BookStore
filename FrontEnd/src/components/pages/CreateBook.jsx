@@ -1,12 +1,12 @@
 import { useState, useEffect, React } from "react";
 import MyFormikComponent from "../common/Formik";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import WalletFormik from "../common/WalletFormik.jsx";
 import {
   getCurrentAccount,
   getEthereumProvider,
   createContractInstance,
+  callSendMethod,
 } from "../../commonEthFunctions";
 import Abi from "../../Abi/BookContractAbi.json";
 import { BOOKADDRESS } from "../../config";
@@ -18,8 +18,6 @@ const CreateBook = () => {
   const [contarct, setContarct] = useState(null);
 
   const postDataToApi = async (data) => {
-    console.log(data, "data");
-
     await axios
       .post("http://localhost:9000/books/postBook", data)
       .then((res) => setResponse(res.status));
@@ -27,44 +25,38 @@ const CreateBook = () => {
   const postDataToContract = async (data) => {
     try {
       const { title, author, publishYear, bookPrice } = data;
-      const account = await getCurrentAccount();
 
-      console.log(contarct.methods["token"].call(), "checkkkkkk");
+      const tempData = [account, title, author, bookPrice, false];
 
-      const estGas = await contarct.methods
-        .listBookForSale([account, title, author, bookPrice, false])
-        .estimateGas({
-          from: account,
-        });
-      console.log("first");
-
-      await contarct.methods
-        .listBookForSale([account, title, author, bookPrice, false])
-        .send({
-          from: account,
-          gas: estGas,
-        })
+      await callSendMethod(
+        Abi,
+        BOOKADDRESS,
+        account,
+        "listBookForSale",
+        tempData
+      )
         .then((tx) => {
-          if (tx.status === true) {
-            postDataToApi(data);
-          } else {
-            console.log(tx);
+          if (tx) {
+            postDataToApi(data)
+              .then((res) => console.log(res))
+              .catch((error) => console.error(error));
           }
         })
-        .catch((error) => console.log(error, "error"));
+        .catch((error) => console.error(error));
     } catch (error) {
-      console.log("error", error);
+      console.error(error);
     }
   };
   const contarctInstance = async () => {
     const tempContarct = await createContractInstance(Abi, BOOKADDRESS);
     console.log(tempContarct);
+    const tempAccount = await getCurrentAccount();
+    setAccount(tempAccount);
+
     setContarct(tempContarct);
   };
 
   const handleSubmit = (data) => {
-    console.log(data, "data");
-
     postDataToContract(data);
   };
 
@@ -77,7 +69,6 @@ const CreateBook = () => {
 
   return (
     <div>
-      <Link to="/"> Home</Link>
       <h1>{heading}</h1>
       <MyFormikComponent onSubmit={handleSubmit} />
       <WalletFormik

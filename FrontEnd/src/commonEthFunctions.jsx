@@ -123,17 +123,19 @@ export async function callSendMethod(
   }
 
   try {
-    const estGas = await contractInstance.methods[method]
-      .apply(null, Array.prototype.slice.call(data))
-      .estimateGas(dataToSend);
+    console.log("data to send", dataToSend);
+    const estGas = await contractInstance.methods[method](data).estimateGas(
+      dataToSend
+    );
 
     dataToSend.estGas = estGas;
 
-    const tx = await contractInstance.methods[method]
-      .apply(null, Array.prototype.slice.call(data))
-      .send(dataToSend);
+    const tx = await contractInstance.methods[method](data)
+      .send(dataToSend)
+      .then((tx) => tx)
+      .catch((error) => console.log(error, "error occured in the send method"));
 
-    console.log("Transaction hash:", tx.transactionHash);
+    return tx;
   } catch (error) {
     console.error("Error occurred in the send method:", error);
   }
