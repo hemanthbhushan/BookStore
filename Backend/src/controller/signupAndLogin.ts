@@ -2,8 +2,12 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import loginSchema from "../schema/loginSchema";
 import jwt from "jsonwebtoken";
-const SECRET_KEY = "hello";
+import dotenv from "dotenv";
+
 class SignUpApi {
+  constructor() {
+    dotenv.config();
+  }
   public async signup(req: Request, res: Response) {
     try {
       const { email, name, password, walletAddress } = req.body;
@@ -25,7 +29,10 @@ class SignUpApi {
         walletAddress,
       });
 
-      const token = jwt.sign({ email: email, id: result._id }, SECRET_KEY);
+      const token = jwt.sign(
+        { email: email, id: result._id },
+        process.env.SECRET_KEY as any
+      );
 
       return res.status(200).send({
         user: result,
@@ -56,7 +63,10 @@ class SignUpApi {
         });
       }
 
-      const isMatch = await bcrypt.compare(password, String(existingUser.password));
+      const isMatch = await bcrypt.compare(
+        password,
+        String(existingUser.password)
+      );
 
       if (!isMatch) {
         return res.status(200).send({
@@ -65,7 +75,8 @@ class SignUpApi {
       }
       const token = jwt.sign(
         { email: email, id: existingUser._id },
-        SECRET_KEY,{expiresIn:10}
+        process.env.SECRET_KEY as any,
+        { expiresIn: 10 }
       );
 
       res.status(200).send({
@@ -74,7 +85,7 @@ class SignUpApi {
       });
     } catch (error) {
       console.error(error);
-       res.status(500).send({
+      res.status(500).send({
         status: "error",
         message: "An error occurred while processing the request.",
       });
@@ -89,9 +100,9 @@ class SignUpApi {
         { walletAddress },
         { returnOriginal: false }
       );
-       res.status(200).send({ message: temp, status: "success" });
+      res.status(200).send({ message: temp, status: "success" });
     } catch (error) {
-       res.status(500).send({
+      res.status(500).send({
         status: "error",
         message: "An error occurred while processing the request.",
       });
