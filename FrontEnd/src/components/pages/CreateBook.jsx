@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from "react";
-import MyFormikComponent from "../common/Formik";
+import CreateBookFormik from "../common/CreateBookFormik";
 import axios from "axios";
 import WalletFormik from "../common/WalletFormik.jsx";
 import {
@@ -72,7 +72,7 @@ const CreateBook = () => {
   return (
     <div>
       <h1>{heading}</h1>
-      <MyFormikComponent onSubmit={handleSubmit} />
+      <CreateBookFormik onSubmit={handleSubmit} />
       <WalletFormik
         setAccount={setAccount}
         setConnButtonText={setConnButtonText}

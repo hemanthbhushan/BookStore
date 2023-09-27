@@ -55,10 +55,10 @@ class SignUpApi {
         { walletAddress },
         { password: 1 }
       );
-      console.log(existingUser, "user");
+      // console.log(existingUser, "user");
 
       if (!existingUser) {
-        return res.status(200).send({
+        return res.status(401).send({
           message: "Need to Sign Up",
         });
       }
@@ -69,7 +69,7 @@ class SignUpApi {
       );
 
       if (!isMatch) {
-        return res.status(200).send({
+        return res.status(401).send({
           message: "Invalid Credentials",
         });
       }

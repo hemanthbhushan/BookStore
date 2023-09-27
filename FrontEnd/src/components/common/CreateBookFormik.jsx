@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
-const MyFormikComponent = ({ onSubmit }) => {
+const CreateBookFormik = ({ onSubmit }) => {
   const initialValues = {
     title: "",
     author: "",
@@ -85,4 +85,4 @@ const MyFormikComponent = ({ onSubmit }) => {
   );
 };
 
-export default MyFormikComponent;
+export default CreateBookFormik;
