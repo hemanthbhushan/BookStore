@@ -31,7 +31,8 @@ class SignUpApi {
 
       const token = jwt.sign(
         { email: email, id: result._id },
-        process.env.SECRET_KEY as any
+        process.env.SECRET_KEY as any,
+        { expiresIn: "10s" }
       );
 
       return res.status(200).send({
@@ -50,7 +51,6 @@ class SignUpApi {
   public async signin(req: Request, res: Response) {
     try {
       const { email, walletAddress, password } = req.body;
-
       const existingUser = await loginSchema.findOne(
         { walletAddress },
         { password: 1 }
@@ -76,7 +76,7 @@ class SignUpApi {
       const token = jwt.sign(
         { email: email, id: existingUser._id },
         process.env.SECRET_KEY as any,
-        { expiresIn: 10 }
+        { expiresIn: 1000 }
       );
 
       res.status(200).send({

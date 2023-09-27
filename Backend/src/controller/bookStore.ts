@@ -23,6 +23,7 @@ class BookStore {
       if (!title || !author || !publishYear) {
         return res.status(400).send({ message: "Missing required fields" });
       }
+      console.log("first");
       const data = {
         title,
         author,
@@ -55,9 +56,9 @@ class BookStore {
 
   public async getBookById(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id } = req.body;
 
-      const dataFetchedById = await bookSchema.findById(id);
+      const dataFetchedById = await bookSchema.findOne({ id });
 
       if (!dataFetchedById) {
         return res.status(404).send({ message: "Book not found" });
@@ -70,11 +71,16 @@ class BookStore {
   }
   public async updateBookById(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id, title } = req.body;
+      const data = { title: title };
 
-      const dataFetched = await bookSchema.findByIdAndUpdate(id, req.body, {
-        returnOriginal: false,
-      });
+      const dataFetched = await bookSchema.findOneAndUpdate(
+        { id },
+        { $set: data },
+        {
+          returnOriginal: false,
+        }
+      );
       if (!dataFetched) {
         return res.status(404).send({ message: "Book not Found" });
       }
@@ -88,18 +94,23 @@ class BookStore {
   }
   public async deleteBookById(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id } = req.body;
 
-      const dataFetched = await bookSchema.findByIdAndDelete(id, {
-        returnOriginal: false,
-      });
+      const dataFetched = await bookSchema.findOneAndDelete(
+        { id },
+        {
+          returnOriginal: false,
+        }
+      );
       if (!dataFetched) {
         return res.status(404).send({ message: "Book not Found" });
       }
       return res
         .status(200)
         .send({ message: `Book deleted Successfully `, data: dataFetched });
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).send({ message: "Internal Server Error" });
+    }
   }
 }
 

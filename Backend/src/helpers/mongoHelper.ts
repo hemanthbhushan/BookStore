@@ -22,7 +22,7 @@ class MongoHelper {
        * @param {string} url - URL for database connection
        * @param options - 
       */
-
+      mongoose.set('strictQuery', true);
       const connect = mongoose.connect(url,options);
       console.log("mongoDB: Connected Successfully.!!");
     } catch (error) {

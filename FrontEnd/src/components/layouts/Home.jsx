@@ -9,7 +9,6 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log("hi");
     axios
       .get("http://localhost:9000/books/")
       .then((response) => {
@@ -17,7 +16,6 @@ const Home = () => {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-      
   }, []);
   return (
     <div>
@@ -27,6 +25,8 @@ const Home = () => {
       <Link to="/details"> show details</Link>
       <Link to="/delete"> deleteBook</Link>
       <Link to="/wallet">WalletConnect</Link>
+      <Link to='/signin'>SignIn</Link>
+      <Link to='/signup'>SignUp</Link>
     </div>
   );
 };

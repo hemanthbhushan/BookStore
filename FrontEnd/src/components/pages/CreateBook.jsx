@@ -18,6 +18,7 @@ const CreateBook = () => {
   const [contarct, setContarct] = useState(null);
 
   const postDataToApi = async (data) => {
+    
     await axios
       .post("http://localhost:9000/books/postBook", data)
       .then((res) => setResponse(res.status));
@@ -27,6 +28,7 @@ const CreateBook = () => {
       const { title, author, publishYear, bookPrice } = data;
 
       const tempData = [account, title, author, bookPrice, false];
+      console.log(tempData,"tempData")
 
       await callSendMethod(
         Abi,
@@ -38,7 +40,7 @@ const CreateBook = () => {
         .then((tx) => {
           if (tx) {
             postDataToApi(data)
-              .then((res) => console.log(res))
+              .then((res) => console.log(`response is ${response}`))
               .catch((error) => console.error(error));
           }
         })

@@ -9,16 +9,18 @@ class JwtValidite {
   }
   public verifyjwt(req: Request, res: Response, next: NextFunction) {
     try {
-      const token: any = req.headers;
-      jwt
-        .verify(token, process.env.SECRET_KEY)
-        .then((temp: any) => console.log(temp))
-        .catch((err: any) => {
-          console.log(err);
-        });
+      const token: string | undefined = req.headers.authorization as string;
+
+      if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      jwt.verify(token, process.env.SECRET_KEY as string);
+
       next();
     } catch (error) {
       console.log(error);
+      res.status(500).send({ message: "Internal Server Error", error: error });
     }
   }
 }
