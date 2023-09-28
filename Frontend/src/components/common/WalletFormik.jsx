@@ -37,6 +37,7 @@ const WalletFormik = ({ setAccount, setConnButtonText }) => {
 
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMetaMask) {
+      fetchWalletAddress()
       window.ethereum.on("accountsChanged", (account) => {
         updateAccount(account[0]);
       });
@@ -49,16 +50,16 @@ const WalletFormik = ({ setAccount, setConnButtonText }) => {
     }
   }, []);
 
-  const handleConnectClick = () => {
-    fetchWalletAddress();
-    // onSubmit(values); // Uncomment this line if you plan to use form values
-  };
+  // const handleConnectClick = () => {
+  //   fetchWalletAddress();
+  //   // onSubmit(values); // Uncomment this line if you plan to use form values
+  // };
 
   return (
     <div>
-      <button type="submit" onClick={handleConnectClick}>
+      {/* <button type="submit" onClick={handleConnectClick}>
         Connect
-      </button>
+      </button> */}
     </div>
   );
 };

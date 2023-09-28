@@ -10,7 +10,7 @@ class JwtValidite {
   public verifyjwt(req: Request, res: Response, next: NextFunction) {
     try {
       const token: string | undefined = req.headers.authorization as string;
-
+      console.log(token, "token");
       if (!token) {
         return res.status(401).json({ message: "Unauthorized" });
       }

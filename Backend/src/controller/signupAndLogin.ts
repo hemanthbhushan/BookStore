@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import loginSchema from "../schema/loginSchema";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -15,8 +15,8 @@ class SignUpApi {
       const existingUser = await loginSchema.findOne({ walletAddress });
 
       if (existingUser) {
-        return res.status(400).send({
-          message: "alreadySignedUp",
+        return res.status(401).send({
+          message: "already SignedUp",
         });
       }
 
@@ -28,20 +28,23 @@ class SignUpApi {
         password: hashedPassword,
         walletAddress,
       });
+      
 
       const token = jwt.sign(
         { email: email, id: result._id },
         process.env.SECRET_KEY as any,
-        { expiresIn: "10s" }
+        { expiresIn: "1800s" }
       );
 
       return res.status(200).send({
         user: result,
         token: token,
+        message:"signedup Successful"
       });
     } catch (error) {
       console.error(error);
       res.status(500).send({
+        error: error,
         status: "error",
         message: "An error occurred while processing the request.",
       });

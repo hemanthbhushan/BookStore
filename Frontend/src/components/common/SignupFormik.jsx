@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 const LoginFormik = ({ onSubmit }) => {
   const initialValues = {
     email: "",
-    walletAddress: "",
+    name: "",
     password: "",
   };
 
@@ -14,9 +14,8 @@ const LoginFormik = ({ onSubmit }) => {
     if (!values.email) {
       errors.email = "email is required";
     }
-
-    if (!values.walletAddress) {
-      errors.walletAddress = "walletAddress is required";
+    if (!values.name) {
+      errors.name = "name  is required";
     }
 
     if (!values.password) {
@@ -44,23 +43,17 @@ const LoginFormik = ({ onSubmit }) => {
             <Field type="text" id="email" name="email" />
             <ErrorMessage name="email" component="div" className="error" />
           </div>
-
           <div>
-            <label htmlFor="walletAddress">walletAddress</label>
-            <Field type="text" id="walletAddress" name="walletAddress" />
-            <ErrorMessage name="walletAddress" component="div" className="error" />
+            <label htmlFor="name">Name</label>
+            <Field type="text" id="name" name="name" />
+            <ErrorMessage name="name" component="div" className="error" />
           </div>
 
           <div>
-            <label htmlFor="password">Publish Year</label>
-            <Field type="number" id="password" name="password" />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="error"
-            />
+            <label htmlFor="password">Password</label>
+            <Field type="text" id="password" name="password" />
+            <ErrorMessage name="password" component="div" className="error" />
           </div>
-         
 
           <button type="submit">Submit</button>
         </Form>
