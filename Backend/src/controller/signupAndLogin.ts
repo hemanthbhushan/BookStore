@@ -28,18 +28,11 @@ class SignUpApi {
         password: hashedPassword,
         walletAddress,
       });
-      
-
-      const token = jwt.sign(
-        { email: email, id: result._id },
-        process.env.SECRET_KEY as any,
-        { expiresIn: "1800s" }
-      );
 
       return res.status(200).send({
         user: result,
-        token: token,
-        message:"signedup Successful"
+
+        message: "signedup Successful",
       });
     } catch (error) {
       console.error(error);
@@ -61,8 +54,8 @@ class SignUpApi {
       // console.log(existingUser, "user");
 
       if (!existingUser) {
-        return res.status(401).send({
-          message: "Need to Sign Up",
+        return res.status(401).json({
+          error: "Need to Sign Up",
         });
       }
 
@@ -72,20 +65,31 @@ class SignUpApi {
       );
 
       if (!isMatch) {
-        return res.status(401).send({
-          message: "Invalid Credentials",
+        res.status(401).json({
+          error: "Invalid Credentials",
         });
       }
-      const token = jwt.sign(
-        { email: email, id: existingUser._id },
-        process.env.SECRET_KEY as any,
-        { expiresIn: 1000 }
-      );
 
-      res.status(200).send({
-        user: existingUser,
-        token: token,
-      });
+      if (isMatch) {
+        jwt.sign(
+          { email: existingUser.email, id: existingUser._id },
+          process.env.SECRET_KEY as any,
+          { expiresIn: "1000 s" },
+          (err, token) => {
+            if (err) throw err;
+            // res.cookie("token", token).json(existingUser);
+            res.status(200).json({
+              token:token,
+              user:existingUser
+            });
+          }
+        );
+
+        // res.status(200).json({
+        //   user: existingUser,
+        //   token: token,
+        // });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).send({

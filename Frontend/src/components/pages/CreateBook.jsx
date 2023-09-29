@@ -18,8 +18,15 @@ const CreateBook = () => {
   const [contarct, setContarct] = useState(null);
 
   const postDataToApi = async (data) => {
+    const authToken = sessionStorage.getItem("token");
+    console.log(authToken)
+    const config = {
+      headers: {
+        Authorization: authToken // Include the JWT token in the Authorization header
+      },
+    };
     await axios
-      .post("http://localhost:9000/books/postBook", data)
+      .post("http://localhost:9000/books/postBook", data, config)
       .then((res) => setResponse(res.status));
   };
   const postDataToContract = async (data) => {

@@ -14,7 +14,7 @@ class JwtValidite {
       if (!token) {
         return res.status(401).json({ message: "Unauthorized" });
       }
-
+        console.log( process.env.SECRET_KEY," process.env.SECRET_KEY")
       jwt.verify(token, process.env.SECRET_KEY as string);
 
       next();

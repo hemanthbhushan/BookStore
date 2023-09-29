@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongo from "./helpers/mongoHelper";
 // import mySQL from "./helpers/mySQLHelper";
 import blockRoutes from "./Routes/blockRoutes";
-
+import cookieParser = require("cookie-parser");
 
 class App {
   private app: express.Application;
@@ -26,6 +26,8 @@ class App {
   private initMiddleware() {
     this.app.use(cors());
     this.app.use(bodyParser.json());
+    this.app.use(cookieParser());
+    this.app.use(express.urlencoded());
     // Connection with mongoDB
     mongo.connectMongoDB();
     // mySQL.connectMySQLDB();

@@ -3,30 +3,31 @@ import axios from "axios";
 import LoginFormik from "../common/LoginFormik";
 import WalletFormik from "../common/WalletFormik";
 import { Link } from "react-router-dom";
-
-import CreateBook from "./CreateBook";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [loginStatus, setLoginStatus] = useState("");
   const [account, setAccount] = useState(null);
   const [connButtonText, setConnButtonText] = useState("");
   const [jwtToken, setJwtToken] = useState("");
-  
+  const navigate = useNavigate();
 
   const postDataToApi = async (data) => {
     try {
       const response = await axios.post(
         "http://localhost:9000/books/signin",
-        data // Send the request data as the second argument
+        data
       );
 
       const { token } = response.data;
-      console.log(token, "res.data.token-------------");
-     
+      sessionStorage.setItem("token", token);
+      // console.log(token, "res.data.token-------------");
+
       setJwtToken(token);
       setLoginStatus("");
+      navigate("/creatorHome");
     } catch (error) {
-      setLoginStatus(error.response.data.message);
+      // setLoginStatus(error.response.data.message);
       console.log(error, "errorr=============");
     }
   };
@@ -43,9 +44,6 @@ const Signin = () => {
     };
     postDataToApi(dataToSend);
   };
-  useEffect(() => {
-    setLoginStatus("");
-  }, [account]);
 
   return (
     <>

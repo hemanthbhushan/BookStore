@@ -3,22 +3,24 @@ import axios from "axios";
 import SignupFormik from "../common/SignupFormik";
 import WalletFormik from "../common/WalletFormik";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   // State variables
   const [signupStatus, setSignupStatus] = useState("");
   const [account, setAccount] = useState(null);
   const [connButtonText, setConnButtonText] = useState("");
-  const [jwtToken, setJwtToken] = useState("");
-
+  const navigate = useNavigate();
   // Function to send data to the API
   const postDataToApi = async (data) => {
     try {
-      const response = await axios.post("http://localhost:9000/books/signup", data);
-      const { token } = response.data;
-      console.log(token, "res.data.token-------------");
-      setJwtToken(token);
+      const response = await axios.post(
+        "http://localhost:9000/books/signup",
+        data
+      );
+
       setSignupStatus("");
+      navigate("/signin");
     } catch (error) {
       console.error(error, "=========error=============");
       setSignupStatus(error.response.data.message);
@@ -51,8 +53,6 @@ const Signup = () => {
         setConnButtonText={setConnButtonText}
       />
       <div>{connButtonText}</div>
-      <br />
-      <div>{jwtToken}</div>
       <br />
       {signupStatus === "already SignedUp" ? (
         <>
