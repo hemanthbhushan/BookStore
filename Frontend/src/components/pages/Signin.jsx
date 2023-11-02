@@ -20,7 +20,7 @@ const Signin = () => {
       );
 
       const { token } = response.data;
-      sessionStorage.setItem("token", token);
+      localStorage.setItem("token", token);
       // console.log(token, "res.data.token-------------");
 
       setJwtToken(token);

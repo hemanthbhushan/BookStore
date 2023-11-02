@@ -9,6 +9,7 @@ import Signup from "../pages/Signup";
 import CreatorHome from "./CreatorHome";
 import UserHome from "./UserHome";
 import Home from "./Home";
+import Signout from "../pages/Signout";
 
 const Layout = () => {
   return (
@@ -23,6 +24,7 @@ const Layout = () => {
         <Route path="/delete" element={<DeleteBook />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signout" element={<Signout />} />
       </Routes>
     </>
   );

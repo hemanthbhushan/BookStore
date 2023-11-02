@@ -18,11 +18,11 @@ const CreateBook = () => {
   const [contarct, setContarct] = useState(null);
 
   const postDataToApi = async (data) => {
-    const authToken = sessionStorage.getItem("token");
-    console.log(authToken)
+    const authToken = localStorage.getItem("token");
+    console.log(authToken);
     const config = {
       headers: {
-        Authorization: authToken // Include the JWT token in the Authorization header
+        Authorization: authToken,
       },
     };
     await axios

@@ -23,7 +23,6 @@ class BookStore {
       if (!title || !author || !publishYear) {
         return res.status(400).send({ message: "Missing required fields" });
       }
-      console.log("first");
       const data = {
         title,
         author,

@@ -24,6 +24,7 @@ const CreatorHome = () => {
       <Link to="/edit"> editBook</Link>
       <Link to="/details"> showdetails</Link>
       <Link to="/delete"> deleteBook</Link>
+      <Link to="/signout"> SignOut</Link>
     </div>
   );
 };
